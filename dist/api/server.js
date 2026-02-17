@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createServer = void 0;
 const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const zod_1 = require("zod");
 const pantryState_1 = require("../domain/pantryState");
@@ -39,6 +40,8 @@ const buildNowIso = () => (0, dayjs_1.default)().startOf("day").toISOString();
 const createServer = () => {
     const app = (0, express_1.default)();
     app.use(express_1.default.json());
+    // Serve static files from the public directory
+    app.use(express_1.default.static(path_1.default.join(__dirname, "../../public")));
     app.get("/health", (_req, res) => {
         res.status(200).json({ ok: true });
     });
