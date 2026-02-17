@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import dayjs from "dayjs";
 import { z } from "zod";
 import { pantryState } from "../domain/pantryState";
@@ -39,6 +40,9 @@ const buildNowIso = (): string => dayjs().startOf("day").toISOString();
 export const createServer = () => {
   const app = express();
   app.use(express.json());
+
+  // Serve static files from the public directory
+  app.use(express.static(path.join(__dirname, "../../public")));
 
   app.get("/health", (_req, res) => {
     res.status(200).json({ ok: true });
